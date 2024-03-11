@@ -4,9 +4,25 @@
 
 2. Verificato il corretto funzionamento del nostro codice, spostiamo la logica in un file functions.php che includeremo poi nella pagina principale
 */
-var_dump($_GET);
-
+//var_dump($_GET);
 $lunghezza_pass = $_GET['long-pass'];
+echo 'Lunghezza password: ' . $lunghezza_pass;
+echo '<br/>';
+
+function crearePass($num){
+    $pass = [];
+    for ($i=0; $i < $num; $i++) { 
+        $randomNumber = rand(0, 9);
+        array_push($pass, $randomNumber);
+    };  
+    //var_dump($pass);
+    return $pass;
+};
+
+$password = crearePass($lunghezza_pass);
+//var_dump(crearePass($lunghezza_pass));
+var_dump($password);
+
 ?>
 
 <!doctype html>
@@ -27,6 +43,7 @@ $lunghezza_pass = $_GET['long-pass'];
         <header>
             <!-- place navbar here -->
         </header>
+        
         <main>
             <div class="container">
                 <form action="" method="GET">
@@ -36,15 +53,21 @@ $lunghezza_pass = $_GET['long-pass'];
                     <button type="submit" class="btn btn-primary">
                         Generare Password
                     </button>                      
-
-                    <div>
-                        <?= $lunghezza_pass ?>
-                    </div>
                 </form>
-            </div>
-            
-                
+
+                <?php if((crearePass($lunghezza_pass))) : ?>
+                    <div>
+                        <h3>La tua password é: 
+                            <?php foreach($password as $pa) : ?>
+                                <?php echo trim($pa, ' ') ?> 
+                            <?php endforeach; ?>
+                        </h3>              
+                        Ha una lunghezza di: <?= $lunghezza_pass ?> numeri.
+                    </div>
+                <?php endif; ?>
+            </div>   
         </main>
+
         <footer>
             <!-- place footer here -->
         </footer>
